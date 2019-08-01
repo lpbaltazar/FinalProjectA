@@ -15,6 +15,7 @@ cols = ['USERID', 'PRIMARY_FINGERPRINT', 'USER_BROWSER', 'USER_BROWSER_VERSION',
 remove_comma = ['VIDEO_CONTENT_TITLE', 'VIDEO_CATEGORY_TITLE', 'ISP_TAG']
 
 def cleanData(data_dir):
+	print(data_dir)
 	for f in sorted(os.listdir(data_dir)):
 		if f.endswith(".csv"):
 			file = os.path.join(data_dir, f)
@@ -27,8 +28,8 @@ def cleanData(data_dir):
 
 if __name__ == '__main__':
 	cleanData("../../events/sql/december")
-    cleanData("../../events/sql/january")
-    cleanData("../../events/sql/february")
-    cleanData("../../events/sql/march")
-    cleanData("../../events/sql/april")
-    cleanData("../../events/sql/may")
+	cleanData("../../events/sql/january")
+	cleanData("../../events/sql/february")
+	cleanData("../../events/sql/march")
+	cleanData("../../events/sql/april")
+	cleanData("../../events/sql/may")
