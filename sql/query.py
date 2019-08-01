@@ -12,7 +12,6 @@ import pymysql.cursors
 from utils import toCSV
 
 def main(cursor, query, outfile):
-	
 	s = time.time()
 	df = pd.read_sql(query, con = cursor, chunksize = 5000000)
 	df = pd.concat(df)
@@ -35,5 +34,5 @@ if __name__ == '__main__':
 	main(query, outfile)
 	query = '''SELECT YEARWEEK(SESSION_STARTDT) AS WEEK, USERID, SESSIONID, VIDEO_DURATION, USR_ACT_TOT_WATCHING_DUR FROM events_data GROUP BY YEARWEEK(SESSION_STARTDT)
 			'''
-	outfile = "query_results/for_completion_week.csv"
+	outfile = "query_results/for_completion_weekly.csv"
 	main(query, outfile)
