@@ -15,8 +15,9 @@ def readCSV(file, usecols = None, converters = None, encoding = None, dtype = st
 def readChunk(file, usecols = None, converters = None, encoding = None, chunksize = 5000000, iterator = True, header = 'infer'):
 	df = pd.read_csv(file, usecols = usecols, converters = converters, encoding = encoding,
 			chunksize = chunksize, iterator = iterator, header = header, low_memory = False, dtype = str)
+	df = pd.concat(df)
 	df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 	return df
 
-df toCSV(df, file, index = True, encoding = None, sep = ','):
+def toCSV(df, file, index = True, encoding = None, sep = ','):
 	df.to_csv(file, index = index, encoding = encoding, sep = sep)
