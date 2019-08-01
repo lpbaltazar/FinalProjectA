@@ -13,8 +13,9 @@ import pandas as pd
 from utils import readChunk, toCSV
 
 def removeLurkers(df):
-	df["lurkers"] = df[["USERID", "PRIMARY_FINGERPRINT"]].apply(lambda x: 1 if re.search(x[1], x[0]) else 0)
+	df["lurkers"] = df[["USERID", "PRIMARY_FINGERPRINT"]].apply(lambda x: 1 if re.search(x[1], x[0]) else 0, axis = 1)
 	df = df.loc[df.lurkers == 0]
+	print(len(df))
 	return(df)
 
 def extractColumns(data_dir, outdir):
@@ -29,7 +30,7 @@ def extractColumns(data_dir, outdir):
 			df = removeLurkers(df)
 			outfile = os.path.join(outdir, f[-12:])
 
-			toCSV(df, outfile)
+			toCSV(df, outfile, index = False)
 			
 if __name__ == '__main__':
 	extractColumns("../../events/2018/12", "../../events/sql/december")
