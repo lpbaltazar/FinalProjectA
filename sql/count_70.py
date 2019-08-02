@@ -17,7 +17,7 @@ df = readChunk(file)
 def countCompletion70(df):
 	df.COMPLETION_70 = df.COMPLETION_70.astype(float)
 	print("Total Number of Customers: {}".format(len(df.USERID.unique())))
-	df = df.loc[df.completion_70 >= 70]
+	df = df.loc[df.COMPLETION_70 >= 70]
 	print("Total Number of Customers with 70% Completion: {}".format(len(df.USERID.unique())))
 	print("\n")
 	return df
@@ -46,8 +46,12 @@ def getCustomers(df, col = False):
 if __name__ == '__main__':
 	file = "query_results/for_completion_total.csv"
 	df = readChunk(file)
-	df.rename(columns = {0:'USERID', 1:'SESSIONID', 2:'MONTH', 3:'WEEK', 4:'DATE', 5:'COMPLETION'}, inplace = True)
+	df.rename(columns = {0:'USERID', 1:'SESSIONID', 2:'MONTH', 3:'WEEK', 4:'DATE', 5:'COMPLETION_70'}, inplace = True)
 	print("Entire time: ")
 	countCompletion70(df)
 	timeCompletion(df, 'MONTH')
 	timeCompletion(df, 'WEEK')
+	# print("Extracting entire time: ")
+	# getCustomers(df)
+	# getCustomers(df, 'MONTH')
+	# getCustomers(df, 'WEEK')
