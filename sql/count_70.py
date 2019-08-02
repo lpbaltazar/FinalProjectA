@@ -16,7 +16,7 @@ df = readChunk(file)
 
 def countCompletion70(df):
 	df.COMPLETION_70 = df.COMPLETION_70.astype(float)
-	print("Total Number of Customers: {}".format(len(df.USERID.unique())))
+	# print("Total Number of Customers: {}".format(len(df.USERID.unique())))
 	df = df.loc[df.COMPLETION_70 >= 70]
 	print("Total Number of Customers with 70% Completion: {}".format(len(df.USERID.unique())))
 	print("\n")
