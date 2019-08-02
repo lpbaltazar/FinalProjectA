@@ -35,9 +35,9 @@ if __name__ == '__main__':
 	df = readChunk(file)
 	print("Entire time: ")
 	countCompletion70(df)
-	file = "query_results/for_completion_total.csv"
-	df = readChunk(file)
+	# file = "query_results/for_completion_total.csv"
+	# df = readChunk(file)
 	timeCompletion(df, 'MONTH')
-	file = "query_results/for_completion_total.csv"
-	df = readChunk(file)
+	# file = "query_results/for_completion_total.csv"
+	# df = readChunk(file)
 	timeCompletion(df, 'WEEK')
