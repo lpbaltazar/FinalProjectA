@@ -37,33 +37,41 @@ if __name__ == '__main__':
 	# outfile = "query_results/for_completion_weekly.csv"
 	# main(cursor, query, outfile)
 
+	# query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
+	# 			FROM events_data
+	# 			WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) >= 0.70
+	# 			GROUP BY YEARWEEK(SESSION_STARTDT, 1)
+	# 			'''
+	# outfile = 'query_results/week_count_70.csv'
+	# main(cursor, query, outfile)
+
+	# query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
+	# 			FROM events_data
+	# 			WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) >= 0.70
+	# 			GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT)
+	# 			'''
+	# outfile = 'query_results/month_count_70.csv'
+	# main(cursor, query, outfile)
+
+	# query = '''SELECT COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
+	# 			FROM events_data
+	# 			WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) >= 0.70'''
+	# outfile = 'query_results/total_count_70.csv'
+	# main(cursor, query, outfile)
+
 	query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
 				FROM events_data
-				WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) >= 0.70'''
-	outfile = 'query_results/week_count_70.csv'
-	main(cursor, query, outfile)
-
-	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
-				FROM events_data
-				WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) >= 0.70'''
-	outfile = 'query_results/month_count_70.csv'
-	main(cursor, query, outfile)
-
-	query = '''SELECT COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
-				FROM events_data
-				WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) >= 0.70'''
-	outfile = 'query_results/total_count_70.csv'
-	main(cursor, query, outfile)
-
-	query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
-				FROM events_data
-				WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) < 0.70'''
+				WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) < 0.70
+				GROUP BY YEARWEEK(SESSION_STARTDT, 1)
+				'''
 	outfile = 'query_results/week_count_less.csv'
 	main(cursor, query, outfile)
 
 	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
 				FROM events_data
-				WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) < 0.70'''
+				WHERE ((VIDEO_DURATION*1.0)/(USR_ACT_TOT_WATCHING_DUR*1.0)) < 0.70
+				GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT)
+				'''
 	outfile = 'query_results/month_count_less.csv'
 	main(cursor, query, outfile)
 
@@ -73,12 +81,14 @@ if __name__ == '__main__':
 	outfile = 'query_results/total_count_less.csv'
 	main(cursor, query, outfile)
 	query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
-				FROM events_data'''
+				FROM events_data
+				GROUP BY YEARWEEK(SESSION_STARTDT, 1)'''
 	outfile = 'query_results/week_count_total.csv'
 	main(cursor, query, outfile)
 
 	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, COUNT(USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
-				FROM events_data'''
+				FROM events_data
+				GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT)'''
 	outfile = 'query_results/month_count_total.csv'
 	main(cursor, query, outfile)
 
