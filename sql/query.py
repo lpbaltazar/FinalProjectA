@@ -24,7 +24,7 @@ def main(cursor, query, outfile):
 
 if __name__ == '__main__':
 	cursor = pymysql.connect(host = "localhost", user = 'rigi', password = 'pwd@rigi', db = 'events_db')
-	
+
 	query = '''SELECT ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0))*100 AS COMPLETION'''
 	outfile = 'query_results/all_session_completion.csv'
 	main(cursor, query, outfile)
@@ -51,7 +51,3 @@ if __name__ == '__main__':
 				'''
 	outfile = 'query_results/customer_completion_total.csv'
 	main(cursor, query, outfile)
-
-
-
-	
