@@ -27,13 +27,13 @@ if __name__ == '__main__':
 	query = '''SELECT ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0))*100 AS COMPLETION'''
 	outfile = 'query_results/all_session_completion.csv'
 	main(cursor, query, outfile)
-	
+
 	query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, USERID, COUNT(SESSIONID)
 				FROM events_data
 				WHERE ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0)) >= 0.70
 				GROUP BY YEARWEEK(SESSION_STARTDT, 1)
 				'''
-	outfile = 'query_results/week_completion_70.csv'
+	outfile = 'query_results/customer_completion_week.csv'
 	main(cursor, query, outfile)
 
 	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
@@ -41,14 +41,14 @@ if __name__ == '__main__':
 				WHERE ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0)) >= 0.70
 				GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT)
 				'''
-	outfile = 'query_results/month_completion_70.csv'
+	outfile = 'query_results/customer_completion_month.csv'
 	main(cursor, query, outfile)
 
 	query = '''SELECT USERID, COUNT(SESSIONID)
 				FROM events_data
 				WHERE ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0)) >= 0.70
 				'''
-	outfile = 'query_results/total_completion_70.csv'
+	outfile = 'query_results/customer_completion_total.csv'
 	main(cursor, query, outfile)
 
 
