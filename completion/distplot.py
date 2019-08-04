@@ -18,8 +18,12 @@ import matplotlib.style as style
 sns.set()
 style.use('seaborn-poster')
 
-df = readChunk("../sql/query_results/all_session_completion.csv")
+df = readChunk("../sql/query_results/all_average_completion.csv")
+tot = len(df)
+df.rename(columns = {'AVGCOMPLETION':'COMPLETION'}, inplace = True)
 df.dropna(subset = ['COMPLETION'], inplace = True)
+print('Total number of customers: ', tot)
+print('Removed customers: ', tot-len(df))
 print(df.head())
 df.COMPLETION = df.COMPLETION.astype(float)
 
@@ -28,7 +32,7 @@ df.COMPLETION = df.COMPLETION.astype(float)
 # plot = sns.distplot(df.COMPLETION.values, bins = 20, kde = False)
 # plot = df.hist(column = 'COMPLETION', bins = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100])
 # plot.set(xlabel = 'Percent', ylabel = 'Number of Sessions')
-plt.savefig('figures/trial1.png')
+# plt.savefig('figures/trial1.png')
 
 bin1 = list(range(0, 105, 5))
 fordf = []
@@ -46,12 +50,15 @@ for i in range(len(bin1)):
 
 	tohist.iloc[i-1]['COUNT'] = len(temp)
 
-
+tot = tohist.COUNT.sum()
 plot = tohist.plot(kind = 'bar', colormap = 'Pastel2')
-tohist['percent'] = round((tohist.COUNT/tohist.COUNT.sum())*100, 1)
-for i in range(len(b1)):
+tohist['percent'] = (tohist['COUNT']/tot)*100
+tohist['percent'] = tohist['percent'].astype(float)
+tohist['percent'] = round(tohist['percent'], 1)
+# tohist['percent'] = round(tohist['percent'], 1)
+for i in range(tohist.shape[0]):
 	plot.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
 plot.set_xlabel('COMPLETION RATE')
-plot.set_ylabel('Number of Sessions')
+plot.set_ylabel('NUMBER OF CUSTOMERS')
 plt.tight_layout()
-plt.savefig('figures/trial2.png')
+plt.savefig('figures/customer_average_completion.png')
