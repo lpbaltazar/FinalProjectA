@@ -25,29 +25,21 @@ def main(cursor, query, outfile):
 if __name__ == '__main__':
 	cursor = pymysql.connect(host = "localhost", user = 'rigi', password = 'pwd@rigi', db = 'events_db')
 
-	query = '''SELECT ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0))*100 AS COMPLETION'''
-	outfile = 'query_results/all_session_completion.csv'
+	query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, USERID, (SUM(USR_ACT_TOT_WATCHING_DUR)/SUM(VIDEO_DURATION))*100 AS AVGCOMPLETION
+				FROM events_data
+				GROUP BY YEARWEEK(SESSION_STARTDT, 1), USERID'''
+	outfile = 'query_results/week_average_completion.csv'
 	main(cursor, query, outfile)
 
-	query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, USERID, COUNT(SESSIONID)
+	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, (SUM(USR_ACT_TOT_WATCHING_DUR)/SUM(VIDEO_DURATION))*100 AS AVGCOMPLETION
 				FROM events_data
-				WHERE ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0)) >= 0.70
-				GROUP BY YEARWEEK(SESSION_STARTDT, 1)
-				'''
-	outfile = 'query_results/customer_completion_week.csv'
+				GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT), USERID'''
+	outfile = 'query_results/month_average_completion.csv'
 	main(cursor, query, outfile)
 
-	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
+	query = '''SELECT USERID, (SUM(USR_ACT_TOT_WATCHING_DUR)/SUM(VIDEO_DURATION))*100 AS AVGCOMPLETION
 				FROM events_data
-				WHERE ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0)) >= 0.70
-				GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT)
-				'''
-	outfile = 'query_results/customer_completion_month.csv'
+			'''
+	outfile = 'query_results/all_average_completion.csv'
 	main(cursor, query, outfile)
 
-	query = '''SELECT USERID, COUNT(SESSIONID)
-				FROM events_data
-				WHERE ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0)) >= 0.70
-				'''
-	outfile = 'query_results/customer_completion_total.csv'
-	main(cursor, query, outfile)
