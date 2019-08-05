@@ -24,25 +24,35 @@ def main(cursor, query, outfile):
 
 if __name__ == '__main__':
 	cursor = pymysql.connect(host = "localhost", user = 'rigi', password = 'pwd@rigi', db = 'events_db')
-	query = '''SELECT DATE(SESSION_STARTDT) AS DATE, COUNT(DISTINCT USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
+	query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, USERID, COUNT(SESSIONID)
 				FROM events_data
-				WHERE ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0)) >= 0.70
-				GROUP BY DATE(SESSION_STARTDT)
+				WHERE (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0)) >= 0.70
+				GROUP BY YEARWEEK(SESSION_STARTDT, 1), USERID)
 				'''
-	outfile = 'query_results/date_count_70.csv'
+	outfile = 'query_results/customer_sessioncount_week.csv'
 	main(cursor, query, outfile)
 
-	query = '''SELECT DATE(SESSION_STARTDT) AS DATE, COUNT(DISTINCT USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
+	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
 				FROM events_data
-				WHERE ((USR_ACT_TOT_WATCHING_DUR*1.0)/(VIDEO_DURATION*1.0)) < 0.70
-				GROUP BY DATE(SESSION_STARTDT)
+				WHERE (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0)) >= 0.70
+				GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT), USERID
 				'''
-	outfile = 'query_results/date_count_less.csv'
+	outfile = 'query_results/customer_sessioncount_month.csv'
 	main(cursor, query, outfile)
 
-	query = '''SELECT DATE(SESSION_STARTDT) AS DATE, COUNT(DISTINCT USERID) AS NUMCUST, COUNT(SESSIONID) AS NUMSESSIONS
+	query = '''SELECT USERID, COUNT(SESSIONID)
 				FROM events_data
-				GROUP BY DATE(SESSION_STARTDT)
+				WHERE (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0)) >= 0.70
+				GROUP BY USERID
 				'''
-	outfile = 'query_results/date_count_total.csv'
+	outfile = 'query_results/customer_sessioncount_all.csv'
+	main(cursor, query, outfile)
+
+
+	query = '''SELECT DATE(SESSION_STARTDT) AS DATE, USERID, COUNT(SESSIONID)
+				FROM events_data
+				WHERE (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0)) >= 0.70
+				GROUP BY DATE(SESSION_STARTDT), USERID
+				'''
+	outfile = 'query_results/customer_sessioncount_day.csv'
 	main(cursor, query, outfile)
