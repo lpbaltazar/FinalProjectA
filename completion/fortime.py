@@ -14,6 +14,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 
 import matplotlib.style as style
+from statsmodels.tsa.stattools import adfuller
 
 
 sns.set()
@@ -31,7 +32,7 @@ df.rename(columns = {'NUMSESSIONS_x': 'COMPLETION_70', 'NUMSESSIONS_y': 'COMPLET
 print(df.DATE.unique())
 df.COMPLETION_70 = df.COMPLETION_70.astype(float)
 df.COMPLETION_LESS_THAN_70 = df.COMPLETION_LESS_THAN_70.astype(float)
-df['DATE'] = df['DATE'].to_datetime()
+df['DATE'] = pd.to_datetime(df['DATE'])
 df['total'] = df.COMPLETION_70 + df.COMPLETION_LESS_THAN_70
 df['percent_70'] = round((df.COMPLETION_70/df['total'])*100, 1)
 df['percent_less'] = round((df.COMPLETION_LESS_THAN_70/df['total'])*100, 1)
@@ -44,10 +45,36 @@ df = df[['DATE', 'COMPLETION_LESS_THAN_70', 'COMPLETION_70']]
 
 
 # df.set_index('DATE', inplace = True)
-df_deets.set_index('DATE', inplace = True)
-plot = df.plot(x = 'DATE', y = 'percent_70', data = df, kind = 'line', colormap = 'Pastel2')
-plot.set_xlabel('DATE')
-plot.set_ylabel('NUMBER OF CUSTOMERS')
+# df.set_index('DATE', inplace = True)
+# plot = df.plot(x = 'DATE', y = 'COMPLETION_70', kind = 'bar', colormap = 'Pastel2', legend = False)
+# plot.set_xlabel('DATE')
+# plot.set_ylabel('NUMBER OF CUSTOMERS')
 
-plt.tight_layout()
-plt.savefig('figures/num_cust_completion_daily.png')
+# plt.tight_layout()
+# plt.savefig('figures/num_cust_completion_daily_bar.png')
+
+def adftest(X):
+	result = adfuller(X)
+	print('ADF Statistic: %f' % result[0])
+	print('p-value: %f' % result[1])
+	print('Critical Values: ')
+	for key, value in result[4].items():
+		print('\t%s: %.3f' % (key, value))
+
+
+def test_stationary(df):
+	X = df.COMPLETION_70.values
+	adftest(X)
+	df = df[['DATE', 'COMPLETION_70']]
+	df.set_index('DATE', inplace = True)
+	rolmean = df.rolling(7).mean()
+	rolstd = df.rolling(7).std()
+	plt.set_cmap('Pastel2')
+	orig = plt.plot(df, label = 'Original')
+	mean = plt.plot(rolmean, label = 'Rolling Mean')
+	std = plt.plot(rolstd, label = 'Rolling Std')
+	plt.legend(loc = 'best')
+	plt.title('Rolling Mean and Standarad Deviation')
+	plt.savefig('figures/rolling_mean_std.png')
+
+test_stationary(df)
