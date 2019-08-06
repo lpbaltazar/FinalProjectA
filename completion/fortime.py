@@ -21,8 +21,8 @@ sns.set()
 style.use('seaborn-poster')
 
 type_sess = ['total', 'less', '70']
-less70 = readChunk("../sql/query_results/date_count_less.csv")
-more70 = readChunk("../sql/query_results/date_count_70.csv")
+less70 = readChunk("../sql/query_results/date_count_50_less.csv")
+more70 = readChunk("../sql/query_results/date_count_50.csv")
 
 df = more70.merge(less70, on ='DATE')
 print(df.columns)
@@ -75,6 +75,6 @@ def test_stationary(df):
 	std = plt.plot(rolstd, label = 'Rolling Std')
 	plt.legend(loc = 'best')
 	plt.title('Rolling Mean and Standarad Deviation')
-	plt.savefig('figures/rolling_mean_std.png')
+	plt.savefig('figures/rolling_mean_std_50.png')
 
 test_stationary(df)
