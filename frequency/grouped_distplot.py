@@ -38,7 +38,7 @@ def getBins(df, month, maxi = None, binrange = 2):
 
 
 def distPlot(df, xlabel, ylabel, outfile, ylim = None):
-	tot = df.COUNT.sum()
+	# tot = df.COUNT.sum()
 	plot = df.plot(kind = 'bar', colormap = 'Pastel2')
 	plot.set_xlabel(xlabel)
 	plot.set_ylabel(ylabel)
@@ -49,14 +49,14 @@ def distPlot(df, xlabel, ylabel, outfile, ylim = None):
 	plt.clf()
 
 
-df = readChunk("../sql/query_results/customer_sessioncount_80_week.csv")
+df = readChunk("../sql/query_results/customer_sessioncount_80_month.csv")
 df.rename(columns = {'COUNT(SESSIONID)': 'FREQUENCY'}, inplace = True)
 df.FREQUENCY = df.FREQUENCY.astype(int)
 tohist = []
 for i in df.MONTH.unique():
 	temp = df.loc[df.MONTH == i]
-	hist = getBins(temp, binrange = 10, maxi = 200)
+	hist = getBins(temp, i, binrange = 5, maxi = 50)
 	tohist.append(hist)
 
 tohist = pd.concat(tohist, axis = 1)
-print(tohist.head())
+distPlot(tohist, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', 'figures/customer_sessioncount_80_month.png')
