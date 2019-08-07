@@ -15,9 +15,10 @@ df = readChunk("../sql/query_results/customer_sessioncount_80_month.csv")
 df.rename(columns = {'COUNT(SESSIONID)': 'FREQUENCY'}, inplace = True)
 df.FREQUENCY = df.FREQUENCY.astype(int)
 
-new_df = pd.DataFrame(index = 'df.USERID.unique()', columns = ['MONTH_RETURN_VALUE'])
+new_df = pd.DataFrame(index = df.USERID.unique(), columns = ['MONTH_RETURN_VALUE'])
 new_df.index.name = 'USERID'
 new_df.reset_index(inplace = True)
+print(new_df.columns)
 
 init = list(df.loc[df.MONTH == '201812'].USERID.unique())
 
@@ -27,11 +28,11 @@ def addvalue(x):
 
 
 for month in df.MONTH.unique():
-	if month == '201812' | mont == '201811': continue
+	if (month == '201812') |( month == '201811'): continue
 	temp = df.loc[df.MONTH == month]
 	users = list(temp.USERID.unique())
 	common = list(set(init).intersection(users))
-	new_df['MONTH_RETURN_VALUE'] = new_df.apply(lambda x: addvalue(x.MONTH_RETURN_VALUE) if x.USERID.isin(common) else x.MONTH_RETURN_VALUE)
+	new_df['MONTH_RETURN_VALUE'] = new_df.apply(lambda x: addvalue(x.MONTH_RETURN_VALUE) if x.USERID in common else x.MONTH_RETURN_VALUE, axis = 1)
 	init.extend(users)
 	init = list(set(init))
 
