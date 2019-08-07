@@ -48,3 +48,15 @@ def distPlot(df, xlabel, ylabel, outfile, ylim = None):
 	plt.savefig(outfile)
 	plt.clf()
 
+
+df = readChunk("../sql/query_results/customer_sessioncount_80_week.csv")
+df.rename(columns = {'COUNT(SESSIONID)': 'FREQUENCY'}, inplace = True)
+df.FREQUENCY = df.FREQUENCY.astype(int)
+tohist = []
+for i in df.MONTH.unique():
+	temp = df.loc[df.MONTH == i]
+	hist = getBins(temp, binrange = 10, maxi = 200)
+	tohist.append(hist)
+
+tohist = pd.concat(tohist, axis = 1)
+print(tohist.head())
