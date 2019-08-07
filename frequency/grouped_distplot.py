@@ -49,14 +49,19 @@ def distPlot(df, xlabel, ylabel, outfile, ylim = None):
 	plt.clf()
 
 
-df = readChunk("../sql/query_results/customer_sessioncount_80_month.csv")
+completion = '80'
+col = 'month'
+file = "../sql/query_results/customer_sessioncount_"+completion+"_+"col+".csv"
+out = 'figures/customer_sessioncount_'+completion+'_'+col+'.png'
+col = col.str.upper()
+df = readChunk(file)
 df.rename(columns = {'COUNT(SESSIONID)': 'FREQUENCY'}, inplace = True)
 df.FREQUENCY = df.FREQUENCY.astype(int)
 tohist = []
-for i in df.MONTH.unique():
-	temp = df.loc[df.MONTH == i]
+for i in df[col].unique():
+	temp = df.loc[df[col] == i]
 	hist = getBins(temp, i, binrange = 5, maxi = 50)
 	tohist.append(hist)
 
 tohist = pd.concat(tohist, axis = 1)
-distPlot(tohist, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', 'figures/customer_sessioncount_80_month.png')
+distPlot(tohist, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out)
