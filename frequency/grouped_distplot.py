@@ -18,9 +18,9 @@ import matplotlib.style as style
 sns.set()
 style.use('seaborn-poster')
 
-def getBins(df, month, maxi = None, binrange = 2):
+def getBins(df, month, start = 0, maxi = None, binrange = 2):
 	if maxi == None: maxi = max(df.FREQUENCY)
-	bin1 = list(range(0, maxi, binrange))
+	bin1 = list(range(start, maxi, binrange))
 	fordf = []
 	for i in range(len(bin1)):
 		if i == 0: continue
@@ -39,6 +39,7 @@ def getBins(df, month, maxi = None, binrange = 2):
 
 def distPlot(df, xlabel, ylabel, outfile, ylim = None):
 	# tot = df.COUNT.sum()
+	# df = df.transpose()
 	plot = df.plot(kind = 'bar', colormap = 'Pastel2')
 	plot.set_xlabel(xlabel)
 	plot.set_ylabel(ylabel)
@@ -49,19 +50,19 @@ def distPlot(df, xlabel, ylabel, outfile, ylim = None):
 	plt.clf()
 
 
-completion = '80'
+completion = '50'
 col = 'month'
-file = "../sql/query_results/customer_sessioncount_"+completion+"_+"col+".csv"
-out = 'figures/customer_sessioncount_'+completion+'_'+col+'.png'
-col = col.str.upper()
+file = "../sql/query_results/customer_sessioncount_"+completion+"_"+col+".csv"
+out = 'figures/customer_sessioncount_'+completion+'_'+col+'_no0-5.png'
+col = col.upper()
 df = readChunk(file)
 df.rename(columns = {'COUNT(SESSIONID)': 'FREQUENCY'}, inplace = True)
 df.FREQUENCY = df.FREQUENCY.astype(int)
 tohist = []
 for i in df[col].unique():
 	temp = df.loc[df[col] == i]
-	hist = getBins(temp, i, binrange = 5, maxi = 50)
+	hist = getBins(temp, i, start = 5,  binrange = 5, maxi = 50)
 	tohist.append(hist)
 
 tohist = pd.concat(tohist, axis = 1)
-distPlot(tohist, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out)
+distPlot(tohist, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out, ylim = 60000)
