@@ -65,4 +65,10 @@ for i in df[col].unique():
 	tohist.append(hist)
 
 tohist = pd.concat(tohist, axis = 1)
-distPlot(tohist, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out, ylim = 60000)
+# distPlot(tohist, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out, ylim = 60000)
+
+
+for i in tohist.index.unique():
+	temp = tohist.loc[tohist.index == i]
+	out = 'figures/customer_sessioncount_'+completion+'_'+col+i+'.csv'
+	distPlot(temp, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out)
