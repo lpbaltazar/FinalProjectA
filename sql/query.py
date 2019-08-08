@@ -26,60 +26,60 @@ if __name__ == '__main__':
 	cursor = pymysql.connect(host = "localhost", user = 'rigi', password = 'pwd@rigi', db = 'events_db')
 	
 
-	# query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, USERID, COUNT(SESSIONID)
-	# 			FROM events_data
-	# 			GROUP BY YEARWEEK(SESSION_STARTDT, 1), USERID
-	# 			HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.80
-	# 			'''
-	# outfile = 'query_results/customer_sessioncount_80_week.csv'
-	# main(cursor, query, outfile)
-
-	# query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
-	# 			FROM events_data
-	# 			GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT), USERID
-	# 			HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.80
-	# 			'''
-	# outfile = 'query_results/customer_sessioncount_80_month.csv'
-	# main(cursor, query, outfile)
-
-	# query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, USERID, COUNT(SESSIONID)
-	# 			FROM events_data
-	# 			GROUP BY YEARWEEK(SESSION_STARTDT, 1), USERID
-	# 			HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.70
-	# 			'''
-	# outfile = 'query_results/customer_sessioncount_70_week.csv'
-	# main(cursor, query, outfile)
-
-	# query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
-	# 			FROM events_data
-	# 			GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT), USERID
-	# 			HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.70
-	# 			'''
-	# outfile = 'query_results/customer_sessioncount_70_month.csv'
-	# main(cursor, query, outfile)
-
-	# query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, USERID, COUNT(SESSIONID)
-	# 			FROM events_data
-	# 			GROUP BY YEARWEEK(SESSION_STARTDT, 1), USERID
-	# 			HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.60
-	# 			'''
-	# outfile = 'query_results/customer_sessioncount_60_week.csv'
-	# main(cursor, query, outfile)
-
-	# query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
-	# 			FROM events_data
-	# 			GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT), USERID
-	# 			HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.60
-	# 			'''
-	# outfile = 'query_results/customer_sessioncount_60_month.csv'
-	# main(cursor, query, outfile)
-
-	query = '''SELECT YEARWEEK(SESSION_STARTDT, 1) AS WEEK, USERID, COUNT(SESSIONID)
+	query = '''SELECT DATE(SESSION_STARTDT) AS DATE, USERID, COUNT(SESSIONID)
 				FROM events_data
-				GROUP BY YEARWEEK(SESSION_STARTDT, 1), USERID
+				GROUP BY DATE(SESSION_STARTDT), USERID
+				HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.80
+				'''
+	outfile = 'query_results/customer_sessioncount_80_date.csv'
+	main(cursor, query, outfile)
+
+	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
+				FROM events_data
+				GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT), USERID
+				HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.80
+				'''
+	outfile = 'query_results/customer_sessioncount_80_month.csv'
+	main(cursor, query, outfile)
+
+	query = '''SELECT DATE(SESSION_STARTDT) AS DATE, USERID, COUNT(SESSIONID)
+				FROM events_data
+				GROUP BY DATE(SESSION_STARTDT), USERID
+				HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.70
+				'''
+	outfile = 'query_results/customer_sessioncount_70_date.csv'
+	main(cursor, query, outfile)
+
+	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
+				FROM events_data
+				GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT), USERID
+				HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.70
+				'''
+	outfile = 'query_results/customer_sessioncount_70_month.csv'
+	main(cursor, query, outfile)
+
+	query = '''SELECT DATE(SESSION_STARTDT) AS DATE, USERID, COUNT(SESSIONID)
+				FROM events_data
+				GROUP BY DATE(SESSION_STARTDT), USERID
+				HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.60
+				'''
+	outfile = 'query_results/customer_sessioncount_60_date.csv'
+	main(cursor, query, outfile)
+
+	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
+				FROM events_data
+				GROUP BY EXTRACT(YEAR_MONTH FROM SESSION_STARTDT), USERID
+				HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.60
+				'''
+	outfile = 'query_results/customer_sessioncount_60_month.csv'
+	main(cursor, query, outfile)
+
+	query = '''SELECT DATE(SESSION_STARTDT) AS DATE, USERID, COUNT(SESSIONID)
+				FROM events_data
+				GROUP BY DATE(SESSION_STARTDT), USERID
 				HAVING (SUM(USR_ACT_TOT_WATCHING_DUR)*1.0)/(SUM(VIDEO_DURATION)*1.0) >= 0.50
 				'''
-	outfile = 'query_results/customer_sessioncount_50_week.csv'
+	outfile = 'query_results/customer_sessioncount_50_date.csv'
 	main(cursor, query, outfile)
 
 	query = '''SELECT EXTRACT(YEAR_MONTH FROM SESSION_STARTDT) AS MONTH, USERID, COUNT(SESSIONID)
