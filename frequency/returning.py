@@ -24,8 +24,6 @@ df = readChunk(file)
 df.rename(columns = {'COUNT(SESSIONID)': 'FREQUENCY'}, inplace = True)
 df.FREQUENCY = df.FREQUENCY.astype(int)
 
-new_df = pd.DataFrame(index = df.USERID.unique(), columns = [colname], data = 0)
-new_df.index.name = 'USERID'
 
 df[col] = df[col].astype(float)
 if col == 'MONTH':
@@ -34,6 +32,9 @@ if col == 'MONTH':
 elif col == 'WEEK':
 	init = list(df.loc[df.WEEK == 201848.0].USERID.unique())
 	df = df.loc[df.WEEK >= 201848.0]
+
+new_df = pd.DataFrame(index = df.USERID.unique(), columns = [colname], data = 0)
+new_df.index.name = 'USERID'
 
 for i in df[col].unique():
 	print(i)
