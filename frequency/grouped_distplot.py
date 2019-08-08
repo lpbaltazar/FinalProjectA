@@ -47,7 +47,7 @@ def googleAnalyticsBins(df, col):
 	dicts.append({'bin':'101-200', col:len(df.loc[(df.FREQUENCY >= 101) & (df.FREQUENCY <= 200)])})
 	dicts.append({'bin':'201+', col:len(df.loc[(df.FREQUENCY >= 201)])})
 	tohist = pd.DataFrame(dicts)
-	tohist.set_index('bin', inplace = 'TRUE')
+	tohist.set_index('bin', inplace = True)
 	print(tohist.head())
 	return(tohist)
 
@@ -65,10 +65,10 @@ def distPlot(df, xlabel, ylabel, outfile, ylim = None):
 	plt.clf()
 
 
-completion = '50'
+completion = '80'
 col = 'month'
 file = "../sql/query_results/customer_sessioncount_"+completion+"_"+col+".csv"
-out = 'figures/customer_sessioncount_'+completion+'_'+col+'_no0-5.png'
+out = 'figures/customer_sessioncount_'+completion+'_'+col+'.png'
 col = col.upper()
 df = readChunk(file)
 df.rename(columns = {'COUNT(SESSIONID)': 'FREQUENCY'}, inplace = True)
@@ -81,10 +81,10 @@ for i in df[col].unique():
 	tohist.append(hist)
 
 tohist = pd.concat(tohist, axis = 1)
-# distPlot(tohist, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out, ylim = 60000)
+distPlot(tohist, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out)
 
 
-for i in tohist.index.unique():
-	temp = tohist.loc[tohist.index == i]
-	out = 'figures/customer_sessioncount_'+completion+'_'+col+i+'.png'
-	distPlot(temp, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out)
+# for i in tohist.index.unique():
+# 	temp = tohist.loc[tohist.index == i]
+# 	out = 'figures/customer_sessioncount_'+completion+'_'+col+i+'.png'
+# 	distPlot(temp, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out)
