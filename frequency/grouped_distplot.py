@@ -36,6 +36,21 @@ def getBins(df, month, start = 0, maxi = None, binrange = 2):
 		tohist.iloc[i-1][month] = len(temp)
 	return tohist
 
+def googleAnalyticsBins(df, col):
+	dicts = []
+	for i in range(1, 9):
+		dicts.append({'bin':str(i), col:len(df.loc[df.FREQUENCY == i])})
+	dicts.append({'bin':'9-14', col:len(df.loc[(df.FREQUENCY >= 9) & (df.FREQUENCY <= 14)])})
+	dicts.append({'bin':'15-25', col:len(df.loc[(df.FREQUENCY >= 15) & (df.FREQUENCY <= 25)])})
+	dicts.append({'bin':'26-50', col:len(df.loc[(df.FREQUENCY >= 26) & (df.FREQUENCY <= 50)])})
+	dicts.append({'bin':'51-100', col:len(df.loc[(df.FREQUENCY >= 51) & (df.FREQUENCY <= 100)])})
+	dicts.append({'bin':'101-200', col:len(df.loc[(df.FREQUENCY >= 101) & (df.FREQUENCY <= 200)])})
+	dicts.append({'bin':'201+', col:len(df.loc[(df.FREQUENCY >= 201)])})
+	tohist = pd.DataFrame(dicts)
+	tohist.set_index('bin', inplace = 'TRUE')
+	print(tohist.head())
+	return(tohist)
+
 
 def distPlot(df, xlabel, ylabel, outfile, ylim = None):
 	# tot = df.COUNT.sum()
@@ -61,7 +76,8 @@ df.FREQUENCY = df.FREQUENCY.astype(int)
 tohist = []
 for i in df[col].unique():
 	temp = df.loc[df[col] == i]
-	hist = getBins(temp, i, start = 5,  binrange = 5, maxi = 50)
+	# hist = getBins(temp, i, start = 5,  binrange = 5, maxi = 50)
+	hist = googleAnalyticsBins(temp, i)
 	tohist.append(hist)
 
 tohist = pd.concat(tohist, axis = 1)
@@ -70,5 +86,5 @@ tohist = pd.concat(tohist, axis = 1)
 
 for i in tohist.index.unique():
 	temp = tohist.loc[tohist.index == i]
-	out = 'figures/customer_sessioncount_'+completion+'_'+col+i+'.csv'
+	out = 'figures/customer_sessioncount_'+completion+'_'+col+i+'.png'
 	distPlot(temp, 'NUMBER OF SESSIONS', 'NUMBER OF CUSTOMERS', out)
