@@ -28,3 +28,12 @@ new_df = tot_time_dur.merge(tot_watch_dur, how = 'left', on = 'USERID').merge(to
 new_df['COMPLETION'] = (new_df['WATCHING_DUR']/new_df['VID_DUR'])*100
 toCSV(new_df, 'results/session_duration_vs_completion.csv')
 
+df = readChunk('results/session_duration_vs_completion.csv')
+print(df.head())
+cols = ['TIME_DUR', 'WATCHING_DUR', 'VID_DUR']
+for col in cols:
+	df[col] = pd.to_numeric(df[col], errors = 'coerce')
+
+df.dropna(subset = cols, inplace = True)
+plot = sns.regplot(x = 'TIME_DUR', y = 'WATCHING_DUR', data = temp)
+plt.show()
