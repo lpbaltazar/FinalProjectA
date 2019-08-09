@@ -11,12 +11,14 @@ import numpy as np
 
 from utils import readChunk, toCSV
 
+
 df = readChunk('session_information.csv', header = None)
 df.rename(columns  = {0:'USERID', 1:'SESSIONID', 2:'MONTH', 3:'WEEK', 4:'DATE', 5:'STARTHOUR', 6:'ENDHOUR', 7:'TIME_DUR', 8:'WATCHING_DUR', 9:'VID_DUR'}, inplace = True)
+print(df.head())
 
 cols = ['TIME_DUR', 'WATCHING_DUR', 'VID_DUR']
 for col in cols:
-	df[col] = df[col].astype(float)
+	df[col] = pd.to_numeric(df[col], errors = 'coerce')
 
 tot_time_dur = df.groupby('USERID')['TIME_DUR'].sum().to_frame()
 tot_watch_dur = df.groupby('USERID')['WATCHING_DUR'].sum().to_frame()
