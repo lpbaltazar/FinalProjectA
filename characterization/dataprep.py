@@ -1,5 +1,5 @@
 import warnings
-warnings.filterwarning("ignore")
+warnings.filterwarnings("ignore")
 
 import sys
 sys.path.append('../')
@@ -19,10 +19,21 @@ print(df.STARTHOUR.unique())
 time_df = []
 tohist = pd.DataFrame(index = list(range(0, 24)), column = 'COUNT')
 for i in range(0, 24):
-	temp = df.loc[new_df.STARTHOUR == i]
+	temp = df.loc[df.STARTHOUR == i]
 	new_df = temp.groupby('USERID')['STARTHOUR'].count()
 	time_df.append(new_df)
 	tohist.loc[i]['COUNT'] = len(temp)
 
 tohist.index.name = 'USERID'
 toCSV(tohist, 'trial.csv')
+
+print(len(time_df))
+new_df = pd.DataFrame(index = df.USERID.unique())
+new_df.index.name = 'USERID'
+new_df.reset_index(inplace = True)
+
+for i in range(len(time_df))
+	new_df = new_df.merge(time_df[i], how = 'left', on = 'USERID')
+
+print(new_df.head())
+toCSV(new_df, 'trial.csv')
