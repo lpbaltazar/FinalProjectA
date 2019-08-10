@@ -18,22 +18,22 @@ import matplotlib.style as style
 sns.set()
 style.use('seaborn-poster')
 
-start = readChunk('STARTHOUR.csv')
+start = readChunk('DAYOFWEEK.csv')
 print(start.head())
 clusters = readChunk('rfe_clustering_5.csv')
 clusters.columns = clusters.columns.str.upper()
 print(clusters.head())
 
-for i in range(0, 24):
+for i in range(1, 8):
 	start[str(i)] = pd.to_numeric(start[str(i)], errors = 'coerce')
 clusters.LABEL = clusters.LABEL.astype(int)
 clusters = clusters.merge(start, how = 'left', on = 'USERID')
 
 def tobin(df):
-	tohist = pd.DataFrame(index = list(range(0,24)), columns = ['COUNT'])
-	tohist.index.name = 'HOUR'
+	tohist = pd.DataFrame(index = list(range(1, 8)), columns = ['COUNT'])
+	tohist.index.name = 'DAY'
 	print(len(df))
-	for i in range(0, 24):
+	for i in range(1, 8):
 		# tohist.loc[i]['COUNT'] = len(df.dropna(subset = [str(i)]))
 		tohist.loc[i]['COUNT'] = df[str(i)].sum()
 	print(tohist.head())
@@ -43,9 +43,10 @@ def tobin(df):
 for i in clusters.LABEL.unique():
 	temp = clusters.loc[clusters.LABEL == i]
 	tohist = tobin(temp)
-	plot = sns.barplot(x = 'HOUR', y = 'COUNT', data = tohist, color = 'blue', saturation = 0.5)
+	plot = sns.barplot(x = 'DAY', y = 'COUNT', data = tohist, color = 'blue', saturation = 0.5)
 	plot.set_xlabel('NUMBER OF SESSIONS')
-	plot.set_ylabel('HOUR OF THE DAY')
+	plot.set_ylabel('DAY OF THE WEEK')
+	plot.set(xticklabels = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'])
 	# plot.set_ylim(0, 2000000)
-	plt.savefig('figures/number_sessions_cluster'+str(i)+'.png')
+	plt.savefig('figures/week_number_sessions_cluster'+str(i)+'.png')
 	plt.clf()
