@@ -1,0 +1,28 @@
+import warnings
+warnings.filterwarning("ignore")
+
+import sys
+sys.path.append('../')
+
+import os
+import time
+import pandas as pd
+import numpy as np
+
+from utils import readChunk, toCSV
+
+df = readChunk('../../events/session_information.csv', header = None)
+df.rename(columns  = {0:'USERID', 1:'SESSIONID', 2:'MONTH', 3:'WEEK', 4:'DATE', 5:'STARTHOUR', 6:'ENDHOUR', 7:'TIME_DUR', 8:'WATCHING_DUR', 9:'VID_DUR'}, inplace = True)
+
+df.STARTHOUR = df.STARTHOUR.astype(int)
+print(df.STARTHOUR.unique())
+time_df = []
+tohist = pd.DataFrame(index = list(range(0, 24)), column = 'COUNT')
+for i in range(0, 24):
+	temp = df.loc[new_df.STARTHOUR == i]
+	new_df = temp.groupby('USERID')['STARTHOUR'].count()
+	time_df.append(new_df)
+	tohist.loc[i]['COUNT'] = len(temp)
+
+tohist.index.name = 'USERID'
+toCSV(tohist, 'trial.csv')
