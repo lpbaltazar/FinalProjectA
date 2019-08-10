@@ -17,7 +17,7 @@ def readChunk(file, usecols = None, converters = None, encoding = None, chunksiz
 	df = pd.read_csv(file, usecols = usecols, converters = converters, encoding = encoding,
 			chunksize = chunksize, iterator = iterator, header = header, low_memory = False, dtype = str)
 	df = pd.concat(df)
-	df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+	# df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 	e = time.time()
 	total_time = time.strftime("%H:%M:%S", time.gmtime(e-s))
 	print("Finish reading file {} in {}".format(file, total_time))

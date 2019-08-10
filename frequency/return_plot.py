@@ -25,7 +25,7 @@ print(df.head())
 print(len(df))
 
 tohist = pd.DataFrame(index = df.WEEK_RETURN_VALUE.unique(), columns = ['NUMCUST'])
-tohist.index.name = 'MONTH_RETURN_VALUE'
+tohist.index.name = 'WEEK_RETURN_VALUE'
 for i in df.WEEK_RETURN_VALUE.unique():
 	print(i)
 	temp = df.loc[df.WEEK_RETURN_VALUE == i]
