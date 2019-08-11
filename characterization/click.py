@@ -36,13 +36,13 @@ for i in clusters.LABEL.unique():
 	temp1 = temp.loc[temp.ADPLAY_COUNT <= q]
 
 	q = temp.PLAY_COUNT.quantile(0.99)
-	temp2 = temp.loc[temp.ADPLAY_COUNT <= q]
+	temp2 = temp.loc[temp.PLAY_COUNT <= q]
 
 	q = temp.PAUSE_COUNT.quantile(0.99)
-	temp3 = temp.loc[temp.ADPLAY_COUNT <= q]
+	temp3 = temp.loc[temp.PAUSE_COUNT <= q]
 
-	q = temp.RESUME.quantile(0.99)
-	temp4 = temp.loc[temp.ADPLAY_COUNT <= q]
+	q = temp.RESUME_COUNT.quantile(0.99)
+	temp4 = temp.loc[temp.RESUME_COUNT <= q]
 
 	fig, (ax1, ax2, ax3, ax4) = plt.subplots(4)
 	sns.distplot(temp1.ADPLAY_COUNT.values, color = 'steelblue', ax = ax1)
