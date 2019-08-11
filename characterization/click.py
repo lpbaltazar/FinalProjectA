@@ -44,5 +44,5 @@ for i in clusters.LABEL.unique():
 	ax4.set_title('RESUME')
 
 	plt.tight_layout()
-	plt.show()
+	plt.savefig('figures/click_cluster'+str(i)+'.png')
 	plt.clf()
