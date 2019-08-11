@@ -64,7 +64,7 @@ df['2'] = df.thresh.apply(lambda x: 1 if ((x >= 0.21) & (x <= 0.40)) else 0)
 df['3'] = df.thresh.apply(lambda x: 1 if ((x >= 0.41) & (x <= 0.60)) else 0)
 df['4'] = df.thresh.apply(lambda x: 1 if ((x >= 0.61) & (x <= 0.80)) else 0)
 df['5'] = df.thresh.apply(lambda x: 1 if (x >= 0.81) else 0)
-color = ['lightcoral', 'tomato', 'lemonchiffon', 'mediumaquamarine', 'skyblue']
+color = ['rosybrown', 'peru', 'khaki', 'seagreen', 'steelblue']
 for j in range(1, 6):
 	print(j)
 	temp = df.loc[df[str(j)] == 1]
