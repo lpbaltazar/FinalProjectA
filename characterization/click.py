@@ -32,15 +32,26 @@ clusters = clusters.merge(df, how = 'left', on = 'USERID')
 
 for i in clusters.LABEL.unique():
 	temp = clusters.loc[clusters.LABEL == i]
+	q = temp.ADPLAY_COUNT.quantile(0.99)
+	temp1 = temp.loc[temp.ADPLAY_COUNT <= q]
+
+	q = temp.PLAY_COUNT.quantile(0.99)
+	temp2 = temp.loc[temp.ADPLAY_COUNT <= q]
+
+	q = temp.PAUSE_COUNT.quantile(0.99)
+	temp3 = temp.loc[temp.ADPLAY_COUNT <= q]
+
+	q = temp.RESUME.quantile(0.99)
+	temp4 = temp.loc[temp.ADPLAY_COUNT <= q]
 
 	fig, (ax1, ax2, ax3, ax4) = plt.subplots(4)
-	sns.distplot(temp.ADPLAY_COUNT.values, color = 'steelblue', ax = ax1)
+	sns.distplot(temp1.ADPLAY_COUNT.values, color = 'steelblue', ax = ax1)
 	ax1.set_title('ADPLAY')
-	sns.distplot(temp.PLAY_COUNT.values, color = 'steelblue', ax = ax2)
+	sns.distplot(temp2.PLAY_COUNT.values, color = 'steelblue', ax = ax2)
 	ax2.set_title('PLAY')
-	sns.distplot(temp.PAUSE_COUNT.values, color = 'steelblue', ax = ax3)
+	sns.distplot(temp3.PAUSE_COUNT.values, color = 'steelblue', ax = ax3)
 	ax3.set_title('PAUSE')
-	sns.distplot(temp.RESUME_COUNT.values, color = 'steelblue', ax = ax4)
+	sns.distplot(temp4.RESUME_COUNT.values, color = 'steelblue', ax = ax4)
 	ax4.set_title('RESUME')
 
 	plt.tight_layout()
