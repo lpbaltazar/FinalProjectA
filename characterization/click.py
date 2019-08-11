@@ -34,4 +34,5 @@ ax3.set_title('PAUSE')
 sns.distplot(df.RESUME_COUNT.values, color = 'steelblue', ax = ax4)
 ax4.set_title('RESUME')
 
+plt.tight_layout()
 plt.show()
