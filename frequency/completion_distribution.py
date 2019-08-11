@@ -50,7 +50,7 @@ tohist['percent'] = (tohist['COUNT']/tot)*100
 tohist['percent'] = tohist['percent'].astype(float)
 tohist['percent'] = round(tohist['percent'], 1)
 for i in range(tohist.shape[0]):
-	plot.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
+	ax1.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
 
 ax1.set_title('ONE TIME USERS')
 
@@ -78,7 +78,7 @@ tohist['percent'] = (tohist['COUNT']/tot)*100
 tohist['percent'] = tohist['percent'].astype(float)
 tohist['percent'] = round(tohist['percent'], 1)
 for i in range(tohist.shape[0]):
-	plot.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
+	ax2.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
 
 ax2.set_title('SELDOM USERS')
 
@@ -106,7 +106,7 @@ tohist['percent'] = (tohist['COUNT']/tot)*100
 tohist['percent'] = tohist['percent'].astype(float)
 tohist['percent'] = round(tohist['percent'], 1)
 for i in range(tohist.shape[0]):
-	plot.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
+	ax3.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
 
 ax3.set_title('OCCASIONAL USERS')
 
@@ -134,7 +134,7 @@ tohist['percent'] = (tohist['COUNT']/tot)*100
 tohist['percent'] = tohist['percent'].astype(float)
 tohist['percent'] = round(tohist['percent'], 1)
 for i in range(tohist.shape[0]):
-	plot.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
+	ax4.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
 
 ax4.set_title('DAILY USERS')
 
@@ -162,7 +162,7 @@ tohist['percent'] = (tohist['COUNT']/tot)*100
 tohist['percent'] = tohist['percent'].astype(float)
 tohist['percent'] = round(tohist['percent'], 1)
 for i in range(tohist.shape[0]):
-	plot.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
+	ax5.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
 
 ax5.set_title('BINGE USERS')
 plt.tight_layout()
