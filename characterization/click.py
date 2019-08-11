@@ -25,13 +25,13 @@ for i in cols:
 	df[i] = df[i].astype(int)
 
 fig, (ax1, ax2, ax3, ax4) = plt.subplots(4)
-ax1.sns.distplot(df.ADPLAY_COUNT.values, color = 'steelblue')
+sns.distplot(df.ADPLAY_COUNT.values, color = 'steelblue', ax = ax1)
 ax1.set_title('ADPLAY')
-ax2.sns.distplot(df.PLAY_COUNT.values, color = 'steelblue')
+sns.distplot(df.PLAY_COUNT.values, color = 'steelblue', ax = ax2)
 ax2.set_title('PLAY')
-ax3.sns.distplot(df.PAUSE_COUNT.values, color = 'steelblue')
+sns.distplot(df.PAUSE_COUNT.values, color = 'steelblue', ax = ax3)
 ax3.set_title('PAUSE')
-ax4.sns.distplot(df.RESUME_COUNT.values, color = 'steelblue')
+sns.distplot(df.RESUME_COUNT.values, color = 'steelblue', ax = ax4)
 ax4.set_title('RESUME')
 
 plt.show()
