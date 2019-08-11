@@ -69,7 +69,7 @@ df.drop(columns = ['SEEK_COUNT'], axis = 1, inplace = True)
 
 cols = ['ADPLAY_COUNT', 'PLAY_COUNT', 'PAUSE_COUNT', 'RESUME_COUNT']
 for i in cols:
-	df[co] = df[co].astype(int)
+	df[i] = df[i].astype(int)
 
 new_df = pd.DataFrame(index = df.USERID.unique())
 new_df.index.name = "USERID"
