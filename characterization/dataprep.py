@@ -11,8 +11,8 @@ import numpy as np
 
 from utils import readChunk, toCSV
 
-df = readChunk('session_information.csv', header = None)
-df.rename(columns  = {0:'USERID', 1:'SESSIONID', 2:'MONTH', 3:'WEEK', 4:'DATE', 5:'STARTHOUR', 6:'ENDHOUR', 7:'TIME_DUR', 8:'WATCHING_DUR', 9:'VID_DUR'}, inplace = True)
+# df = readChunk('session_information.csv', header = None)
+# df.rename(columns  = {0:'USERID', 1:'SESSIONID', 2:'MONTH', 3:'WEEK', 4:'DATE', 5:'STARTHOUR', 6:'ENDHOUR', 7:'TIME_DUR', 8:'WATCHING_DUR', 9:'VID_DUR'}, inplace = True)
 
 # df = readChunk('dayofweek.csv', header = None)
 # df.rename(columns = {0:'USERID', 1:'SESSIONID', 2:'DAYOFWEEK'}, inplace = True)
@@ -49,16 +49,37 @@ df.rename(columns  = {0:'USERID', 1:'SESSIONID', 2:'MONTH', 3:'WEEK', 4:'DATE', 
 # print(new_df.head())
 # toCSV(new_df, 'DAYOFWEEK.csv')
 
-df.WATCHING_DUR = pd.to_numeric(df.WATCHING_DUR, errors = "coerce")
-df.VID_DUR = pd.to_numeric(df.VID_DUR, errors = "coerce")
-df.dropna(subset = ['VID_DUR'], inplace = True)
+# df.WATCHING_DUR = pd.to_numeric(df.WATCHING_DUR, errors = "coerce")
+# df.VID_DUR = pd.to_numeric(df.VID_DUR, errors = "coerce")
+# df.dropna(subset = ['VID_DUR'], inplace = True)
 
-watching = df.groupby('USERID')['WATCHING_DUR'].sum().to_frame()
-video = df.groupby('USERID')['VID_DUR'].sum().to_frame()
+# watching = df.groupby('USERID')['WATCHING_DUR'].sum().to_frame()
+# video = df.groupby('USERID')['VID_DUR'].sum().to_frame()
 
-watching = watching.merge(vide, how = 'left', on = 'USERID')
-watching['COMPLETION'] = (watching['WATCHING_DUR']/watching['VID_DUR'])*100
-print(watching.head())
-print(watching.COMPLETION.min())
-print(watching.COMPLETION.max())
-toCSV(watching, 'completion.csv')
+# watching = watching.merge(vide, how = 'left', on = 'USERID')
+# watching['COMPLETION'] = (watching['WATCHING_DUR']/watching['VID_DUR'])*100
+# print(watching.head())
+# print(watching.COMPLETION.min())
+# print(watching.COMPLETION.max())
+# toCSV(watching, 'completion.csv')
+
+df = readChunk('click.csv')
+df.rename(columns = {0:'USERID', 1:'SESSIONID', 2:'ADPLAY_COUNT', 3:'PLAY_COUNT', 4:'PAUSE_COUNT', 5:'RESUME_COUNT', 6:'SEEK_COUNT'}, inplace = True)
+df.drop(columns = ['SEEK_COUNT'], axis = 1, inplace = True)
+
+cols = ['ADPLAY_COUNT', 'PLAY_COUNT', 'PAUSE_COUNT', 'RESUME_COUNT']
+for i in cols:
+	df[co] = df[co].astype(int)
+
+new_df = pd.DataFrame(index = df.USERID.unique())
+new_df.index.name = "USERID"
+new_df.reset_index(inplace = True)
+for i in cols:
+	new_df = new_df.merge(df.groupby('USERID')[i].sum().to_frame(), how = 'left', on = 'USERID')
+
+print(new_df.head())
+toCSV(new_df, 'CLICK.csv')
+
+
+
+
