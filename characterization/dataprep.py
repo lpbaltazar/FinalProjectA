@@ -77,6 +77,10 @@ new_df.reset_index(inplace = True)
 for i in cols:
 	new_df = new_df.merge(df.groupby('USERID')[i].sum().to_frame(), how = 'left', on = 'USERID')
 
+df = readChunk('seek2.csv')
+df.rename(columns = {0:'USERID', 1:'SESSIONID', 2:'SEEK_COUNT'}, inplace = True)
+df.SEEK_COUNT = df.SEEK_COUNT.astype(int)
+new_df = new_df.merge(df.groupby('USERID')['SEEK_COUNT'].sum().to_frame(), how = 'left', on = 'USERID')
 print(new_df.head())
 toCSV(new_df, 'CLICK.csv')
 

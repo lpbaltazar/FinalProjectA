@@ -20,7 +20,7 @@ style.use('seaborn-poster')
 style.use('bmh')
 
 df = readChunk('CLICK.csv')
-cols = ['ADPLAY_COUNT', 'PLAY_COUNT', 'PAUSE_COUNT', 'RESUME_COUNT']
+cols = ['ADPLAY_COUNT', 'PLAY_COUNT', 'PAUSE_COUNT', 'RESUME_COUNT', 'SEEK_COUNT']
 clusters = readChunk('rfe_clustering_5.csv')
 clusters.columns = clusters.columns.str.upper()
 print(clusters.head())
@@ -44,7 +44,10 @@ for i in clusters.LABEL.unique():
 	q = temp.RESUME_COUNT.quantile(0.95)
 	temp4 = temp.loc[temp.RESUME_COUNT <= q]
 
-	fig, (ax1, ax2, ax3, ax4) = plt.subplots(4)
+	q = temp.RESUME_COUNT.quantile(0.95)
+	temp4 = temp.loc[temp.SEEK_COUNT <= q]
+
+	fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5)
 	sns.distplot(temp1.ADPLAY_COUNT.values, color = 'steelblue', ax = ax1)
 	ax1.set_title('ADPLAY')
 	sns.distplot(temp2.PLAY_COUNT.values, color = 'steelblue', ax = ax2)
@@ -53,6 +56,8 @@ for i in clusters.LABEL.unique():
 	ax3.set_title('PAUSE')
 	sns.distplot(temp4.RESUME_COUNT.values, color = 'steelblue', ax = ax4)
 	ax4.set_title('RESUME')
+	sns.distplot(temp5.SEEK_COUNT.values, color = 'steelblue', ax = ax5)
+	ax5.set_title('SEEK')
 
 	plt.tight_layout()
 	plt.savefig('figures/click_cluster'+str(i)+'.png')
