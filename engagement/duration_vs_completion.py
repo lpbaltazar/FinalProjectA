@@ -69,13 +69,17 @@ def typethres(x):
 	else:
 		return 5
 df['thresh'] = df.WATCHING_DUR/df.TIME_DUR
-df['thresh'] = df.apply(lambda x: typethres(x.thresh), axis = 1)
-print(df.thresh)
+df['1'] = df.thresh.apply(lambda x: 1 if ((x >= 0) & (x <= 0.2)) else 0)
+df['2'] = df.thresh.apply(lambda x: 1 if ((x >= 0.21) & (x <= 0.40)) else 0)
+df['3'] = df.thresh.apply(lambda x: 1 if ((x >= 0.41) & (x <= 0.60)) else 0)
+df['4'] = df.thresh.apply(lambda x: 1 if ((x >= 0.61) & (x <= 0.80)) else 0)
+df['5'] = df.thresh.apply(lambda x: 1 if (x >= 0.81) else 0)
 color = ['red', 'orange', 'yellow', 'green', 'blue']
-for j in range(1, 5):
+for j in range(1, 6):
 	print(j)
-	temp = df.loc[df.thresh == j]
-	plot = sns.regplot(x = 'VID_DUR', y = 'WATCHING_DUR', data = temp, fit_reg = False, color = color[j])
+	temp = df.loc[df[str(j)] == 1]
+	plot = sns.regplot(x = 'TIME_DUR', y = 'WATCHING_DUR', data = temp, fit_reg = False, color = color[j-1])
+	
 # plot = df.plot(kind = 'scatter', x = 'VID_DUR', y = 'WATCHING_DUR', c = 'thresh')
 # plot = sns.lmplot(x = 'VID_DUR', y = 'WATCHING_DUR', data = df, hue = 'thresh', fit_reg = False)
 plt.show()
