@@ -166,4 +166,4 @@ for i in range(tohist.shape[0]):
 
 ax5.set_title('BINGE USERS')
 plt.tight_layout()
-plt.savefig('figures/bin5_distribution.png')
+plt.savefig('figures/frequency_segment_completion_distribution.png')
