@@ -64,12 +64,14 @@ df['2'] = df.thresh.apply(lambda x: 1 if ((x >= 0.21) & (x <= 0.40)) else 0)
 df['3'] = df.thresh.apply(lambda x: 1 if ((x >= 0.41) & (x <= 0.60)) else 0)
 df['4'] = df.thresh.apply(lambda x: 1 if ((x >= 0.61) & (x <= 0.80)) else 0)
 df['5'] = df.thresh.apply(lambda x: 1 if (x >= 0.81) else 0)
-color = ['rosybrown', 'peru', 'khaki', 'seagreen', 'steelblue']
+color = ['maroon', 'darkorange', 'khaki', 'seagreen', 'steelblue']
 for j in range(1, 6):
-	print(j)
 	temp = df.loc[df[str(j)] == 1]
+	print(len(temp))
 	plot = sns.regplot(x = 'TIME_DUR', y = 'WATCHING_DUR', data = temp, fit_reg = False, color = color[j-1])
 	
 # plot = df.plot(kind = 'scatter', x = 'VID_DUR', y = 'WATCHING_DUR', c = 'thresh')
 # plot = sns.lmplot(x = 'VID_DUR', y = 'WATCHING_DUR', data = df, hue = 'thresh', fit_reg = False)
+plot.set_xlabel('TOTAL SESSION DURATION')
+plot.set_ylabel('WATCHING DURATION')
 plt.savefig('figures/threshold.png')
