@@ -21,6 +21,9 @@ style.use('bmh')
 
 df = readChunk('CLICK.csv')
 cols = ['ADPLAY_COUNT', 'PLAY_COUNT', 'PAUSE_COUNT', 'RESUME_COUNT']
+clusters = readChunk('rfe_clustering_5.csv')
+clusters.columns = clusters.columns.str.upper()
+print(clusters.head())
 for i in cols:
 	df[i] = df[i].astype(int)
 
