@@ -17,7 +17,6 @@ import matplotlib.style as style
 
 sns.set()
 style.use('seaborn-poster')
-plt.figure(figsize = (5,5))
 
 df = readChunk("../sql/query_results/plateu_all.csv")
 df.rename(columns = {'COUNT(SESSIONID)':'FREQUENCY'}, inplace = True)
@@ -25,7 +24,7 @@ df.FREQUENCY = df.FREQUENCY.astype(int)
 df.COMPLETION = df.COMPLETION.astype(float)
 df.dropna(subset = ['COMPLETION'], inplace = True)
 
-fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(1, 5)
+fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(1, 5, figsize = (16, 9))
 temp = df.loc[df.FREQUENCY == 1]
 bin1 = list(range(0, 110, 10))
 fordf = []
