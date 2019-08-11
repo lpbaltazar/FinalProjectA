@@ -17,6 +17,7 @@ import matplotlib.style as style
 
 sns.set()
 style.use('seaborn-poster')
+style.use('bmh')
 
 
 # df = readChunk('session_information.csv', header = None)
@@ -57,24 +58,13 @@ df = df.loc[df.COMPLETION >= 50]
 # # plot.set_ylim(0,400000)
 # plt.show()
 
-def typethres(x):
-	if (x >= 0) & (x <= 0.2):
-		return 1
-	elif (x >= 0.21) & (x <= 0.4):
-		return 2
-	elif (x >= 0.41) & (x <= 0.6):
-		return 3
-	elif (x >= 0.61) & (x <= 0.8):
-		return 4
-	else:
-		return 5
 df['thresh'] = df.WATCHING_DUR/df.TIME_DUR
 df['1'] = df.thresh.apply(lambda x: 1 if ((x >= 0) & (x <= 0.2)) else 0)
 df['2'] = df.thresh.apply(lambda x: 1 if ((x >= 0.21) & (x <= 0.40)) else 0)
 df['3'] = df.thresh.apply(lambda x: 1 if ((x >= 0.41) & (x <= 0.60)) else 0)
 df['4'] = df.thresh.apply(lambda x: 1 if ((x >= 0.61) & (x <= 0.80)) else 0)
 df['5'] = df.thresh.apply(lambda x: 1 if (x >= 0.81) else 0)
-color = ['red', 'orange', 'yellow', 'green', 'blue']
+color = ['lightcoral', 'tomato', 'lemonchiffon', 'mediumaquamarine', 'skyblue']
 for j in range(1, 6):
 	print(j)
 	temp = df.loc[df[str(j)] == 1]
@@ -82,4 +72,4 @@ for j in range(1, 6):
 	
 # plot = df.plot(kind = 'scatter', x = 'VID_DUR', y = 'WATCHING_DUR', c = 'thresh')
 # plot = sns.lmplot(x = 'VID_DUR', y = 'WATCHING_DUR', data = df, hue = 'thresh', fit_reg = False)
-plt.show()
+plt.savefig('figures/threshold.png')
