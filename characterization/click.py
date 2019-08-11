@@ -32,16 +32,16 @@ clusters = clusters.merge(df, how = 'left', on = 'USERID')
 
 for i in clusters.LABEL.unique():
 	temp = clusters.loc[clusters.LABEL == i]
-	q = temp.ADPLAY_COUNT.quantile(0.99)
+	q = temp.ADPLAY_COUNT.quantile(0.95)
 	temp1 = temp.loc[temp.ADPLAY_COUNT <= q]
 
-	q = temp.PLAY_COUNT.quantile(0.99)
+	q = temp.PLAY_COUNT.quantile(0.95)
 	temp2 = temp.loc[temp.PLAY_COUNT <= q]
 
-	q = temp.PAUSE_COUNT.quantile(0.99)
+	q = temp.PAUSE_COUNT.quantile(0.95)
 	temp3 = temp.loc[temp.PAUSE_COUNT <= q]
 
-	q = temp.RESUME_COUNT.quantile(0.99)
+	q = temp.RESUME_COUNT.quantile(0.95)
 	temp4 = temp.loc[temp.RESUME_COUNT <= q]
 
 	fig, (ax1, ax2, ax3, ax4) = plt.subplots(4)
