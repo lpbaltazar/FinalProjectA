@@ -38,7 +38,7 @@ for i in cols:
 
 print(new_df.head())
 df = readChunk("../characterization/seek2.csv")
-df.rename(columns = {0:"USERID", 1:"SEEK"}, inplace = True)
+df.rename(columns = {0:"USERID", 1:"SESSIONID", 3:"SEEK"}, inplace = True)
 df.SEEK = pd.to_numeric(df.SEEK, errors = "coerce")
 new_df = new_df.merge(df.groupby("USERID")[i].sum().to_frame(), how = 'left', on = "USERID")
 
