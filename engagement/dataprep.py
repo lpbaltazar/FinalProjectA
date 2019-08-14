@@ -12,7 +12,7 @@ import numpy as np
 from utils import readChunk, toCSV
 
 df = readChunk("../characterization/session_information.csv", header = None)
-df.rename(columns = {0:"USERID", 1:"SESSIONID", 2:"MONTH", 3:"WEEK", 4:="DATE", 5:"START_HOUR", 6:"END_HOUR", 7:"SESISON_DURATION", 8:"WATCHING_DURATION", 9:"VIDEO_DURATION"}, inplace = True)
+df.rename(columns = {0:"USERID", 1:"SESSIONID", 2:"MONTH", 3:"WEEK", 4:"DATE", 5:"START_HOUR", 6:"END_HOUR", 7:"SESISON_DURATION", 8:"WATCHING_DURATION", 9:"VIDEO_DURATION"}, inplace = True)
 
 cols = ["SESSION_DURATION", "WATCHING_DURATION"]
 new_df = pd.DataFrame(index = df.USERID.unique())
