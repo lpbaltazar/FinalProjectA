@@ -9,7 +9,7 @@ import time
 import pandas as pd
 import numpy as np
 
-from preprocessing import utils, toCSV
+from utils import readChunk, toCSV
 from matplotlib import pyplot as plt
 import seaborn as sns
 
