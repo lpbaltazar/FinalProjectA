@@ -17,6 +17,7 @@ import matplotlib.style as style
 
 sns.set()
 style.use('seaborn-poster')
+style.use('bmh')
 
 completion = readChunk('completion.csv')
 print(completion.head())
@@ -47,12 +48,14 @@ for j in clusters.LABEL.unique():
 		tohist.iloc[i-1]['COUNT'] = len(temp1)
 
 	tot = tohist.COUNT.sum()
-	plot = tohist.plot(kind = 'bar', colormap = 'Pastel2')
+	plot = tohist.plot(kind = 'bar', legend = False, color = 'steelblue')
 	tohist['percent'] = (tohist['COUNT']/tot)*100
 	tohist['percent'] = tohist['percent'].astype(float)
 	tohist['percent'] = round(tohist['percent'], 1)
 	for i in range(tohist.shape[0]):
 		plot.text(i, tohist.iloc[i]['COUNT'], str(tohist.iloc[i]['percent']), horizontalalignment = 'center')
+	plot.set_ylabel('NUMBER OF CUSTOMERS')
+	plot.set_xlabel('COMPLETION (%)')
 	plt.tight_layout()
-	plt.clf()
 	plt.savefig('figures/completion_cluster'+str(j)+'.png')
+	plt.clf()

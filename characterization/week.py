@@ -17,6 +17,7 @@ import matplotlib.style as style
 
 sns.set()
 style.use('seaborn-poster')
+style.use('bmh')
 
 start = readChunk('DAYOFWEEK.csv')
 print(start.head())
@@ -43,10 +44,20 @@ def tobin(df):
 for i in clusters.LABEL.unique():
 	temp = clusters.loc[clusters.LABEL == i]
 	tohist = tobin(temp)
-	plot = sns.barplot(x = 'DAY', y = 'COUNT', data = tohist, color = 'blue', saturation = 0.5)
-	plot.set_xlabel('NUMBER OF SESSIONS')
-	plot.set_ylabel('DAY OF THE WEEK')
+	plot = sns.barplot(x = 'DAY', y = 'COUNT', data = tohist, color = 'steelblue')
+	plot.set_ylabel('NUMBER OF SESSIONS')
+	plot.set_xlabel('DAY OF THE WEEK')
 	plot.set(xticklabels = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'])
 	# plot.set_ylim(0, 2000000)
 	plt.savefig('figures/week_number_sessions_cluster'+str(i)+'.png')
 	plt.clf()
+
+temp = clusters
+tohist = tobin(temp)
+plot = sns.barplot(x = 'DAY', y = 'COUNT', data = tohist, color = 'steelblue')
+plot.set_ylabel('NUMBER OF SESSIONS')
+plot.set_xlabel('DAY OF THE WEEK')
+plot.set(xticklabels = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'])
+# plot.set_ylim(0, 2000000)
+plt.savefig('figures/week_number_sessions_cluster.png')
+plt.clf()

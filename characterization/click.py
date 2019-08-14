@@ -28,24 +28,35 @@ for i in cols:
 	df[i] = df[i].astype(int)
 
 clusters.LABEL = clusters.LABEL.astype(int)
+clusters.FREQUENCY = clusters.FREQUENCY.astype(float)
 clusters = clusters.merge(df, how = 'left', on = 'USERID')
+
 
 for i in clusters.LABEL.unique():
 	temp = clusters.loc[clusters.LABEL == i]
-	q = temp.ADPLAY_COUNT.quantile(0.95)
+	print(i)
+	print(len(temp))
+	tot = temp.ADPLAY_COUNT.sum() + temp.PLAY_COUNT.sum() + temp.PAUSE_COUNT.sum() + temp.RESUME_COUNT.sum() + temp.SEEK_COUNT.sum()
+	print('Adplay: ', temp.ADPLAY_COUNT.sum()/tot)
+	print('Play: ', temp.PLAY_COUNT.sum()/tot)
+	print('Pause: ', temp.PAUSE_COUNT.sum()/tot)
+	print('Resume: ', temp.RESUME_COUNT.sum()/tot)
+	print('Seek: ', temp.SEEK_COUNT.sum()/tot)
+	print('Total Frequency: ', temp.FREQUENCY.sum()/clusters.FREQUENCY.sum())
+	q = temp.ADPLAY_COUNT.quantile(0.90)
 	temp1 = temp.loc[temp.ADPLAY_COUNT <= q]
 
-	q = temp.PLAY_COUNT.quantile(0.95)
+	q = temp.PLAY_COUNT.quantile(0.90)
 	temp2 = temp.loc[temp.PLAY_COUNT <= q]
 
-	q = temp.PAUSE_COUNT.quantile(0.95)
+	q = temp.PAUSE_COUNT.quantile(0.90)
 	temp3 = temp.loc[temp.PAUSE_COUNT <= q]
 
-	q = temp.RESUME_COUNT.quantile(0.95)
+	q = temp.RESUME_COUNT.quantile(0.90)
 	temp4 = temp.loc[temp.RESUME_COUNT <= q]
 
-	q = temp.RESUME_COUNT.quantile(0.95)
-	temp4 = temp.loc[temp.SEEK_COUNT <= q]
+	q = temp.SEEK_COUNT.quantile(0.90)
+	temp5 = temp.loc[temp.SEEK_COUNT <= q]
 
 	fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5)
 	sns.distplot(temp1.ADPLAY_COUNT.values, color = 'steelblue', ax = ax1)
@@ -60,5 +71,6 @@ for i in clusters.LABEL.unique():
 	ax5.set_title('SEEK')
 
 	plt.tight_layout()
-	plt.savefig('figures/click_cluster'+str(i)+'.png')
+	# plt.savefig('figures/click_cluster'+str(i)+'.png')
+	# plt.show()
 	plt.clf()

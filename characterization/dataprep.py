@@ -63,7 +63,7 @@ from utils import readChunk, toCSV
 # print(watching.COMPLETION.max())
 # toCSV(watching, 'completion.csv')
 
-df = readChunk('click.csv')
+df = readChunk('click.csv', header = None)
 df.rename(columns = {0:'USERID', 1:'SESSIONID', 2:'ADPLAY_COUNT', 3:'PLAY_COUNT', 4:'PAUSE_COUNT', 5:'RESUME_COUNT', 6:'SEEK_COUNT'}, inplace = True)
 df.drop(columns = ['SEEK_COUNT'], axis = 1, inplace = True)
 
@@ -77,7 +77,7 @@ new_df.reset_index(inplace = True)
 for i in cols:
 	new_df = new_df.merge(df.groupby('USERID')[i].sum().to_frame(), how = 'left', on = 'USERID')
 
-df = readChunk('seek2.csv')
+df = readChunk('seek2.csv', header = None)
 df.rename(columns = {0:'USERID', 1:'SESSIONID', 2:'SEEK_COUNT'}, inplace = True)
 df.SEEK_COUNT = df.SEEK_COUNT.astype(int)
 new_df = new_df.merge(df.groupby('USERID')['SEEK_COUNT'].sum().to_frame(), how = 'left', on = 'USERID')

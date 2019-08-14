@@ -17,6 +17,7 @@ import matplotlib.style as style
 
 sns.set()
 style.use('seaborn-poster')
+style.use('bmh')
 
 def getBins(df, month, start = 0, maxi = None, binrange = 2):
 	if maxi == None: maxi = max(df.FREQUENCY)
@@ -55,7 +56,7 @@ def googleAnalyticsBins(df, col):
 def distPlot(df, xlabel, ylabel, outfile, ylim = None):
 	# tot = df.COUNT.sum()
 	# df = df.transpose()
-	plot = df.plot(kind = 'bar', colormap = 'Pastel2')
+	plot = df.plot(kind = 'bar', color = 'steelblue', legend = False)
 	plot.set_xlabel(xlabel)
 	plot.set_ylabel(ylabel)
 	if ylim:

@@ -17,6 +17,7 @@ import matplotlib.style as style
 
 sns.set()
 style.use('seaborn-poster')
+style.use('bmh')
 
 start = readChunk('STARTHOUR.csv')
 print(start.head())
@@ -43,9 +44,18 @@ def tobin(df):
 for i in clusters.LABEL.unique():
 	temp = clusters.loc[clusters.LABEL == i]
 	tohist = tobin(temp)
-	plot = sns.barplot(x = 'HOUR', y = 'COUNT', data = tohist, color = 'blue', saturation = 0.5)
-	plot.set_xlabel('NUMBER OF SESSIONS')
-	plot.set_ylabel('HOUR OF THE DAY')
+	plot = sns.barplot(x = 'HOUR', y = 'COUNT', data = tohist, color = 'steelblue')
+	plot.set_ylabel('NUMBER OF SESSIONS')
+	plot.set_xlabel('HOUR OF THE DAY')
 	# plot.set_ylim(0, 2000000)
 	plt.savefig('figures/number_sessions_cluster'+str(i)+'.png')
 	plt.clf()
+
+temp = clusters
+tohist = tobin(temp)
+plot = sns.barplot(x = 'HOUR', y = 'COUNT', data = tohist, color = 'steelblue')
+plot.set_ylabel('NUMBER OF SESSIONS')
+plot.set_xlabel('HOUR OF THE DAY')
+# plot.set_ylim(0, 2000000)
+plt.savefig('figures/number_sessions_cluster.png')
+plt.clf()
