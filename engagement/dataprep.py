@@ -21,7 +21,7 @@ new_df.reset_index()
 
 for i in cols:
 	df[i] = pd.to_numeric(df[i], errors = 'coerce')
-	new_df = new_df.merge(df.groupby("USERID")[i].sum().to_frame, how = 'left', on = 'USERID')
+	new_df = new_df.merge(df.groupby("USERID")[i].sum().to_frame(), how = 'left', on = 'USERID')
 
 new_df.WATCHING_DURATION = new_df.WATCHING_DURATION/60.0
 new_df['INTERACTION_RATING'] = new_df.WATCHING_DURATION/new_df.SESSION_DURATION
