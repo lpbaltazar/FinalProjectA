@@ -28,7 +28,7 @@ new_df['INTERACTION_RATING'] = new_df.WATCHING_DURATION/new_df.SESSION_DURATION
 print(new_df.head())
 
 df = readChunk("../characterization/click.csv", header = None)
-df.rename(columns = {0:"ADPLAY", 1:"PLAY", 2:"PAUSE", 3:"RESUME", 4:"SEEK"}, inplace = True)
+df.rename(columns = {0:"USERID", 1:"ADPLAY", 2:"PLAY", 3:"PAUSE", 4:"RESUME", 5:"SEEK"}, inplace = True)
 df.drop(columns = ['SEEK'], inplace = True)
 cols = ["ADPLAY", "PLAY", "PAUSE", "RESUME"]
 
@@ -43,5 +43,12 @@ df.rename(columns = {0:"USERID", 1:"SEEK"}, inplace = True)
 df.SEEK = pd.to_numeric(df.SEEK, errors = "coerce")
 new_df = new_df.merge(df.SEEK, how = 'left', on = "USERID")
 
+cols = ["ADPLAY", "PLAY", "PAUSE", "RESUME", "SEEK"]
+new_df["TOTAL"] = 0
+for i in cols:
+	new_df["TOTAL"] = new_df["TOTAL"] + new_df[i]
+
+for i in cols:
+	new_df[i] = new_df[i]/new_df[:"TOTAL"]
 print(new_df.head())
 toCSV(new_df, "engagement_attributes.csv", index = False)
