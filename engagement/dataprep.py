@@ -40,7 +40,7 @@ print(new_df.head())
 df = readChunk("../characterization/seek2.csv")
 df.rename(columns = {0:"USERID", 1:"SEEK"}, inplace = True)
 df.SEEK = pd.to_numeric(df.SEEK, errors = "coerce")
-new_df = new_df..merge(df.SEEK, how = 'left', on = "USERID")
+new_df = new_df.merge(df.SEEK, how = 'left', on = "USERID")
 
 print(new_df.head())
 toCSV(new_df, "engagement_attributes.csv", index = False)
