@@ -32,6 +32,7 @@ df.rename(columns = {0:"ADPLAY", 1:"PLAY", 2:"PAUSE", 3:"RESUME", 4:"SEEK"}, inp
 df.drop(columns = ['SEEK'], inplace = True)
 cols = ["ADPLAY", "PLAY", "PAUSE", "RESUME"]
 
+new_df.reset_index(inplace = True)
 for i in cols:
 	df[i] = pd.to_numeric(df[i], errors = "coerce")
 	new_df = new_df.merge(df[i], how = 'left', on = 'USERID')
