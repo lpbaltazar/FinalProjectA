@@ -30,9 +30,11 @@ print(new_df.head())
 df = readChunk("../characterization/click.csv", header = None)
 df.rename(columns = {0:"USERID", 1:"ADPLAY", 2:"PLAY", 3:"PAUSE", 4:"RESUME", 5:"SEEK"}, inplace = True)
 df.drop(columns = ['SEEK'], inplace = True)
+print(df.head())
 cols = ["ADPLAY", "PLAY", "PAUSE", "RESUME"]
 
 new_df.reset_index(inplace = True)
+print(new_df.head())
 for i in cols:
 	df[i] = pd.to_numeric(df[i], errors = "coerce")
 	new_df = new_df.merge(df[i], how = 'left', on = 'USERID')
