@@ -28,22 +28,19 @@ new_df['INTERACTION_RATING'] = new_df.WATCHING_DURATION/new_df.SESSION_DURATION
 print(new_df.head())
 
 df = readChunk("../characterization/click.csv", header = None)
-df.rename(columns = {0:"USERID", 1:"ADPLAY", 2:"PLAY", 3:"PAUSE", 4:"RESUME", 5:"SEEK"}, inplace = True)
+df.rename(columns = {0:"USERID", 1:"SESSIONID", 2:"ADPLAY", 3:"PLAY", 4:"PAUSE", 5:"RESUME", 6:"SEEK"}, inplace = True)
 df.drop(columns = ['SEEK'], inplace = True)
-print(df.head())
 cols = ["ADPLAY", "PLAY", "PAUSE", "RESUME"]
 
-new_df.reset_index(inplace = True)
-print(new_df.head())
 for i in cols:
 	df[i] = pd.to_numeric(df[i], errors = "coerce")
-	new_df = new_df.merge(df[i], how = 'left', on = 'USERID')
+	new_df = new_df.merge(df.groupby("USERID")[i].sum().to_frame(), how = 'left', on = 'USERID')
 
 print(new_df.head())
 df = readChunk("../characterization/seek2.csv")
 df.rename(columns = {0:"USERID", 1:"SEEK"}, inplace = True)
 df.SEEK = pd.to_numeric(df.SEEK, errors = "coerce")
-new_df = new_df.merge(df.SEEK, how = 'left', on = "USERID")
+new_df = new_df.merge(df.groupby("USERID")[i].sum().to_frame(), how = 'left', on = "USERID")
 
 cols = ["ADPLAY", "PLAY", "PAUSE", "RESUME", "SEEK"]
 new_df["TOTAL"] = 0
